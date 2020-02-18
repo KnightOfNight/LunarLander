@@ -15,6 +15,18 @@ public class Geometry {
     
     public static final int X = 0;
     public static final int Y = 1;
+
+    public static final double[] ORIGIN = new double[]{0.0, 0.0};
+
+    public static final double RT = 0;
+    public static final double UP = Math.toRadians(90);
+    public static final double LF = Math.toRadians(180);
+    public static final double DN = Math.toRadians(270);
+
+    public static final double D90 = Math.toRadians(90);
+    public static final double D180 = Math.toRadians(180);
+    public static final double D270 = Math.toRadians(270);
+    public static final double D360 = Math.toRadians(360);
     
     // translate a point's coords new angle off the origin
     public static int[] translate(int originX, int originY, int pointX, int pointY, int angle) {
@@ -95,5 +107,20 @@ public class Geometry {
 
         destX[idx] = sourceXY[X];
         destY[idx] = sourceXY[Y];
+    }
+    
+    public static double distance(double[] xy1, double[] xy2) {
+        double x = Math.pow(xy1[Geometry.X] - xy2[Geometry.X], 2);
+        double y = Math.pow(xy1[Geometry.Y] - xy2[Geometry.Y], 2);
+        return(Math.sqrt(x + y));
+    }
+
+    public static double[] newPoint(double[] startXY, double length, double radians) {
+        double[] newXY = new double[2];
+
+        newXY[X] = startXY[X] + (length * Math.cos(radians));
+        newXY[Y] = startXY[Y] + (length * Math.sin(radians));
+
+        return(newXY);
     }
 }
