@@ -34,6 +34,55 @@ public class LanderSimulator {
         LOGGER.log(Level.INFO, "start");
 
         Runnable r;
+
+//        Lander lander = LunarLander.lander;
+        
+        r = () -> {
+            int rateMillisecs = 25;
+            double slices = 1000.0 / rateMillisecs;
+            int slice = 0;
+            Timing timer = new Timing();
+            Lander lander = LunarLander.lander;
+            
+            while(true) {
+                
+                if (! run) {
+                    LOGGER.log(Level.INFO, "finish");
+                    running = false;
+                    break;
+                }
+                
+                if (slice == 0) {
+                    slice++;
+                    continue;
+                }
+
+                timer.start();
+
+                lander.telemetry().move(1);
+
+                timer.sleepUpToMillisecs(rateMillisecs);
+                
+                slice++;
+            }
+        };
+
+        Thread t = new Thread(r, "simulator");
+        
+        t.start();        
+    }
+    
+    public synchronized void Oldstart() {
+        if (running) {
+            return;
+        }
+        
+        running = true;
+        run = true;
+
+        LOGGER.log(Level.INFO, "start");
+
+        Runnable r;
         
         r = () -> {
             double[] cg;
@@ -107,6 +156,8 @@ public class LanderSimulator {
     }
 
     public synchronized void stop() {
+        LOGGER.log(Level.INFO, "stop");
+
         run = false;
 
         while (running) {

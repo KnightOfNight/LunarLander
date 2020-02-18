@@ -28,15 +28,15 @@ public class PrimaryDisplay extends javax.swing.JPanel {
     
     @Override
     public void paint(Graphics g) {
-        LOGGER.log(Level.INFO, "start");
+//        LOGGER.log(Level.INFO, "start");
         
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(new java.awt.Color(0, 0, 0));
         g2d.fillRect(0, 0, 1400, 800);
 
-        LunarLander.scenery.draw(g2d);
-        LunarLander.lander.draw(g2d);
+//        LunarLander.scenery.draw(g2d);
+//        LunarLander.lander.draw(g2d);
     }
 
     /**

@@ -23,7 +23,7 @@ public class Painter {
     }
     
     public synchronized void paint() {
-        LunarLander.PrimaryDisplay.repaint(0);
+//        LunarLander.PrimaryDisplay.repaint(0);
         LunarLander.TelemetryDisplay.repaint(0);
     }
     
@@ -61,6 +61,8 @@ public class Painter {
     }
 
     public synchronized void stop() {
+        LOGGER.log(Level.INFO, "stop");
+
         run = false;
 
         while (running) {

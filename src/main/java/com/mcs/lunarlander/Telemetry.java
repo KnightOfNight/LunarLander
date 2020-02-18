@@ -22,33 +22,33 @@ public class Telemetry {
     }
 
     // V
-    public synchronized double[] getV() {
+    public double[] getV() {
         return(V);
     }
     
-    public synchronized void setV(double[] v) {
+    public void setV(double[] v) {
         V[Geometry.X] = v[Geometry.X];
         V[Geometry.Y] = v[Geometry.Y];
     }
 
     // LOC
-    public synchronized double[] getLOC() {
+    public double[] getLOC() {
         return(LOC);
     }
     
-    public synchronized void setLOC(double[] loc) {
+    public void setLOC(double[] loc) {
         LOC[Geometry.X] = loc[Geometry.X];
         LOC[Geometry.Y] = loc[Geometry.Y];
     }
 
     // altitude in feet
-    public synchronized double getAlt() {
+    public double getAlt() {
         double distance = Geometry.distance(Geometry.ORIGIN, LOC);
         distance -= Moon.RADIUS;
         return(distance);
     }
     
-    public final synchronized void reset () {
+    public final void reset () {
         V[Geometry.X] = 5500;
         V[Geometry.Y] = 0;
 
@@ -127,11 +127,18 @@ public class Telemetry {
 
     // vx will be V[Geometry.X] / number of time slices
     // vy will be gravity / number of time slices
-    public synchronized double[] move(double vx, double vy) {
-        double[] endXY;
+    public double[] move(double slices) {
+        double vx = V[Geometry.X] / slices;
+        double vy = Moon.GRAVITY / slices;
+        
+//        double[] endXY;
         double thetaI = findThetaI();
 
-        endXY = Geometry.newPoint(LOC, vx, thetaI);
+        if (V[Geometry.X] > 0) {
+            thetaI += Geometry.D180;
+        }
+
+        double[] endXY = Geometry.newPoint(LOC, vx, thetaI);
         
         double a = Geometry.distance(LOC, endXY);
         double b = Geometry.distance(endXY, Geometry.ORIGIN);
@@ -139,8 +146,14 @@ public class Telemetry {
 
         double C = Math.acos( (Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2 * a * b));
 
-        double gravityAngle = thetaI + Geometry.D180 - C;
+        double gravityAngle;
         
+        if (thetaI <= Geometry.D180) {
+            gravityAngle = thetaI + Geometry.D180 - C;
+        } else {
+            gravityAngle = thetaI - Geometry.D180 + C;
+        }
+
         endXY = Geometry.newPoint(endXY, vy, gravityAngle);
         
         LOC[Geometry.X] = endXY[Geometry.X];

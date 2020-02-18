@@ -225,7 +225,9 @@ public class LunarLander extends javax.swing.JFrame {
     }//GEN-LAST:event_startSimButtonActionPerformed
 
     private void stopSimButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopSimButtonActionPerformed
+        LOGGER.log(Level.INFO, "stopping simulator");
         landersimulator.stop();
+        LOGGER.log(Level.INFO, "stopping painter");
         painter.stop();
         Buttons.configure();
     }//GEN-LAST:event_stopSimButtonActionPerformed

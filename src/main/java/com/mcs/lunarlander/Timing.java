@@ -27,6 +27,7 @@ public class Timing {
         int sleepTime = milliSecs - elapMillisecs();
 
         if (sleepTime < 1) {
+            LOGGER.log(Level.WARNING, "sleep time already exceeded");
             return;
         }
 

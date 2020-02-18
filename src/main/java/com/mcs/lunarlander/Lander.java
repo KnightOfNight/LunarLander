@@ -37,6 +37,8 @@ public class Lander {
     private int Stroke;
     private int dsW;
     private int dsH;
+
+    private Telemetry telemetry;
     
     public Lander() {
         LogSetup.setup(LOGGER);
@@ -44,6 +46,10 @@ public class Lander {
         reset();
     }
     
+    public Telemetry telemetry () {
+        return(telemetry);
+    }
+
     // reset
     public final synchronized void reset() {
         cgX = 135;
@@ -61,7 +67,9 @@ public class Lander {
 
         Scale = MINSCALE;
 
-        setDrawParams();        
+        setDrawParams();
+        
+        telemetry = new Telemetry();
     }
 
     // CG

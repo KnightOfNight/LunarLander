@@ -29,7 +29,7 @@ public class TelemetryDisplay extends javax.swing.JPanel {
     
     @Override
     public void paint(Graphics g) {
-        LOGGER.log(Level.INFO, "start");
+//        LOGGER.log(Level.INFO, "start");
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -37,58 +37,72 @@ public class TelemetryDisplay extends javax.swing.JPanel {
         g2d.fillRect(0, 0, 200, 350);
         
         Lander lander = LunarLander.lander;
-        double[] v = lander.v();
-        int pa = lander.getPitchAngle();
-        int throttle = lander.getDSThrust();
-        double[] dv = lander.getDeltav();
+        double [] loc = lander.telemetry().getLOC();
+
+//        double[] v = lander.v();
+//        int pa = lander.getPitchAngle();
+//        int throttle = lander.getDSThrust();
+//        double[] dv = lander.getDeltav();
         
-        if (LunarLander.landersimulator.running()) {
-            Font font = new Font("Arial", Font.PLAIN, 14);
-            Font fontBold = new Font("Arial", Font.BOLD, 14);
-
-            g2d.setColor(new java.awt.Color(0, 255, 0));
-
-            int keyX = 5;
-            int valX = 70;
-
-            int rowY = 15;            
-            g2d.setFont(fontBold);
-            g2d.drawString("vX", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%.3f", v[Geometry.X]), valX, rowY);
-
-            rowY += 20;            
-            g2d.setFont(fontBold);
-            g2d.drawString("DvX", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%.3f", dv[Geometry.X]), valX, rowY);
-
-            rowY += 20;            
-            g2d.setFont(fontBold);
-            g2d.drawString("vY", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%.3f", v[Geometry.Y]), valX, rowY);
-
-            rowY += 20;            
-            g2d.setFont(fontBold);
-            g2d.drawString("DvY", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%.3f", dv[Geometry.Y]), valX, rowY);
-
-            rowY += 20;            
-            g2d.setFont(fontBold);
-            g2d.drawString("pitch", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%d deg.", pa), valX, rowY);
-
-            rowY += 20;            
-            g2d.setFont(fontBold);
-            g2d.drawString("throttle", keyX, rowY);
-            g2d.setFont(font);
-            g2d.drawString(String.format("%d%%", throttle), valX, rowY);
-        } else {
+        if (! LunarLander.landersimulator.running()) {
             drawNoop(g2d);
+            return;
         }
+
+        Font font = new Font("Arial", Font.PLAIN, 14);
+        Font fontBold = new Font("Arial", Font.BOLD, 14);
+
+        g2d.setColor(new java.awt.Color(0, 255, 0));
+
+        int keyX = 5;
+        int valX = 70;
+
+        int rowY = 15;            
+        g2d.setFont(fontBold);
+        g2d.drawString("LOC[X]", keyX, rowY);
+        g2d.setFont(font);
+        g2d.drawString(String.format("%.3f", loc[Geometry.X]), valX, rowY);
+
+        rowY += 20;
+        g2d.setFont(fontBold);
+        g2d.drawString("LOC[Y]", keyX, rowY);
+        g2d.setFont(font);
+        g2d.drawString(String.format("%.3f", loc[Geometry.Y]), valX, rowY);
+
+//        g2d.setFont(fontBold);
+//        g2d.drawString("vX", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%.3f", v[Geometry.X]), valX, rowY);
+//
+//        rowY += 20;            
+//        g2d.setFont(fontBold);
+//        g2d.drawString("DvX", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%.3f", dv[Geometry.X]), valX, rowY);
+//
+//        rowY += 20;            
+//        g2d.setFont(fontBold);
+//        g2d.drawString("vY", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%.3f", v[Geometry.Y]), valX, rowY);
+//
+//        rowY += 20;            
+//        g2d.setFont(fontBold);
+//        g2d.drawString("DvY", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%.3f", dv[Geometry.Y]), valX, rowY);
+//
+//        rowY += 20;            
+//        g2d.setFont(fontBold);
+//        g2d.drawString("pitch", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%d deg.", pa), valX, rowY);
+//
+//        rowY += 20;            
+//        g2d.setFont(fontBold);
+//        g2d.drawString("throttle", keyX, rowY);
+//        g2d.setFont(font);
+//        g2d.drawString(String.format("%d%%", throttle), valX, rowY);
     }
 
     private void drawNoop(Graphics2D g2d) {
