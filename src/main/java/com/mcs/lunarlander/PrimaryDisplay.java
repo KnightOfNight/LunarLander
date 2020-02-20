@@ -7,6 +7,8 @@ package com.mcs.lunarlander;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +37,19 @@ public class PrimaryDisplay extends javax.swing.JPanel {
         g2d.setColor(new java.awt.Color(0, 0, 0));
         g2d.fillRect(0, 0, 1400, 800);
 
-//        LunarLander.scenery.draw(g2d);
+        Telemetry telemetry = LunarLander.lander.telemetry();
+        
+        List<double[]> history = List.copyOf(telemetry.getHistory());
+        
+        g2d.setColor(new java.awt.Color(255, 255, 255));
+        int[] drawXY;
+//        LOGGER.log(Level.INFO, String.format("history.size:%d", history.size()));
+        for (double[] loc : history) {
+            drawXY = Geometry.realToDraw(loc);
+//            LOGGER.log(Level.INFO, String.format("x,y:%d,%d", drawXY[Geometry.X], drawXY[Geometry.Y]));
+            g2d.drawOval(drawXY[Geometry.X], drawXY[Geometry.Y], 1, 1);
+        }
+        LunarLander.scenery.draw(g2d);
 //        LunarLander.lander.draw(g2d);
     }
 

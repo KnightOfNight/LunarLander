@@ -46,10 +46,6 @@ public class Lander {
         reset();
     }
     
-    public Telemetry telemetry () {
-        return(telemetry);
-    }
-
     // reset
     public final synchronized void reset() {
         cgX = 135;
@@ -70,6 +66,11 @@ public class Lander {
         setDrawParams();
         
         telemetry = new Telemetry();
+    }
+    
+    // Telem
+    public synchronized Telemetry telemetry () {
+        return(telemetry);
     }
 
     // CG

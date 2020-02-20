@@ -37,8 +37,9 @@ public class TelemetryDisplay extends javax.swing.JPanel {
         g2d.fillRect(0, 0, 200, 350);
         
         Lander lander = LunarLander.lander;
-        double [] loc = lander.telemetry().getLOC();
-
+        double[] loc = lander.telemetry().getLOC();
+        int[] drawXY = Geometry.realToDraw(loc);
+       
 //        double[] v = lander.v();
 //        int pa = lander.getPitchAngle();
 //        int throttle = lander.getDSThrust();
@@ -68,6 +69,18 @@ public class TelemetryDisplay extends javax.swing.JPanel {
         g2d.drawString("LOC[Y]", keyX, rowY);
         g2d.setFont(font);
         g2d.drawString(String.format("%.3f", loc[Geometry.Y]), valX, rowY);
+
+        rowY += 20;
+        g2d.setFont(fontBold);
+        g2d.drawString("draw[X]", keyX, rowY);
+        g2d.setFont(font);
+        g2d.drawString(String.format("%d", drawXY[Geometry.X]), valX, rowY);
+
+        rowY += 20;
+        g2d.setFont(fontBold);
+        g2d.drawString("draw[Y]", keyX, rowY);
+        g2d.setFont(font);
+        g2d.drawString(String.format("%d", drawXY[Geometry.Y]), valX, rowY);
 
 //        g2d.setFont(fontBold);
 //        g2d.drawString("vX", keyX, rowY);

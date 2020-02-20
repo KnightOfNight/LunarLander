@@ -63,16 +63,21 @@ public class Scenery {
     }
     
     public void draw(Graphics2D g2d) {
-        int x;
-        int y;
-        int d;        
-        int b;
-        
-        for (int i = 0; i < stars.size(); i++) {
-            stars.get(i).draw(g2d);
-        }
-        
-        g2d.setColor(new java.awt.Color(200, 200, 200));
-        g2d.fillPolygon(groundX, groundY, 4);
+        int[] drawOrigin = Geometry.drawOrigin();
+        int diameter = (int)Math.round(Moon.RADIUS * 2 / Geometry.ftPerPixel);
+        g2d.setColor(new java.awt.Color(128, 128, 128));
+        g2d.fillOval(drawOrigin[Geometry.X] - (diameter / 2), drawOrigin[Geometry.Y] - (diameter / 2), diameter, diameter);
+
+//        int x;
+//        int y;
+//        int d;        
+//        int b;
+//        
+//        for (int i = 0; i < stars.size(); i++) {
+//            stars.get(i).draw(g2d);
+//        }
+//        
+//        g2d.setColor(new java.awt.Color(200, 200, 200));
+//        g2d.fillPolygon(groundX, groundY, 4);
     }
 }

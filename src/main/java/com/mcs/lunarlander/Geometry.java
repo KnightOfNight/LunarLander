@@ -4,6 +4,7 @@
 
 package com.mcs.lunarlander;
 
+import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,8 @@ public class Geometry {
     public static final int Y = 1;
 
     public static final double[] ORIGIN = new double[]{0.0, 0.0};
+    
+    public static final double ftPerPixel = 50000;
 
     public static final double RT = 0;
     public static final double UP = Math.toRadians(90);
@@ -122,5 +125,23 @@ public class Geometry {
         newXY[Y] = startXY[Y] + (length * Math.sin(radians));
 
         return(newXY);
+    }
+    
+    public static int[] drawOrigin() {
+        Dimension panelD = LunarLander.PrimaryDisplay.getSize();
+        int[] drawOrigin = new int[]{panelD.width / 2, panelD.height / 2};
+        return(drawOrigin);
+    }
+    
+    public static int[] realToDraw(double[] realXY) {
+        int[] drawXY = new int[2];
+
+        int[] drawOrigin = drawOrigin();
+        
+        drawXY[X] = drawOrigin[X] + (int)Math.round(realXY[X] / ftPerPixel);
+
+        drawXY[Y] = drawOrigin[Y] - (int)Math.round(realXY[Y] / ftPerPixel);
+
+        return(drawXY);
     }
 }

@@ -4,6 +4,8 @@
 
 package com.mcs.lunarlander;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -15,7 +17,8 @@ public class Telemetry {
     private double[] LOC = new double[2]; // absolute coords off origin, feet
     private double[] V = new double[2]; // velocity, fps
     private Orbit orbit; // an orbital program
-
+    private List<double[]> history = new ArrayList<>();
+    
     public Telemetry() {
         LogSetup.setup(LOGGER);
         reset();
@@ -41,6 +44,11 @@ public class Telemetry {
         LOC[Geometry.Y] = loc[Geometry.Y];
     }
 
+    // Telemetry history
+    public List<double[]> getHistory() {
+        return(history);
+    }
+
     // altitude in feet
     public double getAlt() {
         double distance = Geometry.distance(Geometry.ORIGIN, LOC);
@@ -56,6 +64,10 @@ public class Telemetry {
         LOC[Geometry.Y] = Navmath.nmToFt(109.82074) + Moon.RADIUS;
         
         orbit = new Orbit(Navmath.nmToFt(60) + Moon.RADIUS, Navmath.nmToFt(170) + Moon.RADIUS);
+        
+        history.clear();
+        
+        history.add(LOC);
     }
 
     // angle of inetia in radians
@@ -125,15 +137,11 @@ public class Telemetry {
         return(thetaI);
     }
 
-    // vx will be V[Geometry.X] / number of time slices
-    // vy will be gravity / number of time slices
     public double[] move(double slices) {
         double vx = V[Geometry.X] / slices;
-        double vy = Moon.GRAVITY / slices;
+        double vy = Moon.GRAVITY / slices;        
         
-//        double[] endXY;
         double thetaI = findThetaI();
-
         if (V[Geometry.X] > 0) {
             thetaI += Geometry.D180;
         }
@@ -156,6 +164,13 @@ public class Telemetry {
 
         endXY = Geometry.newPoint(endXY, vy, gravityAngle);
         
+        int[] LOCdrawXY = Geometry.realToDraw(LOC);
+        int[] enddrawXY = Geometry.realToDraw(endXY);
+
+        if (LOCdrawXY[Geometry.X] != enddrawXY[Geometry.X] || LOCdrawXY[Geometry.X] != enddrawXY[Geometry.X]) {
+            history.add(endXY);
+        }
+
         LOC[Geometry.X] = endXY[Geometry.X];
         LOC[Geometry.Y] = endXY[Geometry.Y];
 
