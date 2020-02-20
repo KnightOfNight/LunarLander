@@ -60,7 +60,6 @@ public class Scenery {
         coords[Geometry.X] = panelD.width;
         coords[Geometry.Y] = panelD.height - 25;
         Geometry.appendCoords(groundX, groundY, coords, i++);
-       
     }
     
     public void draw(Graphics2D g2d) {
